@@ -61,6 +61,15 @@
       img {
           vertical-align: middle;
       }
+      #legend {
+        background: #fff;
+        padding: 6px;
+        margin: 5px;
+        border: 1px solid #ddd;
+      }
+      #legend img {
+        vertical-align: middle;
+      }
     </style>
     <script src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false"></script>
     <script type="text/javascript" src="markerclusterer_packed.js"></script>
@@ -77,6 +86,8 @@
     <div id="map-container">
       <div id="map"></div>
       </div>
+    </div>
+    <div id="legend">
     </div>
       Find a node:
       <select id="nodelist" style="width: 350px;">

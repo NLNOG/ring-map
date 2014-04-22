@@ -10,6 +10,9 @@ nlnogRing.participants = {};
 /***************************************************/
 nlnogRing.init = function() {
   /* read list of nodes */
+  var $up = 0;
+  var $down = 0;
+
   $.ajax({
     url: "nodes.cgi",
     dataType: 'json',
@@ -23,6 +26,11 @@ nlnogRing.init = function() {
         var lon = splt.shift();
         var latLng = new google.maps.LatLng(lat, lon);
         nlnogRing.nodes[node.id].latLng = latLng;
+        if (data.results.nodes[i].active == 0) {
+            $down += 1;
+        } else {
+            $up += 1;
+        }
       }
     },
   });
@@ -54,6 +62,13 @@ nlnogRing.init = function() {
   nlnogRing.map = new google.maps.Map(document.getElementById('map'), options);
   nlnogRing.infoWindow = new google.maps.InfoWindow();
   nlnogRing.showMarkers();
+
+  legend = document.getElementById("legend");
+  var div = document.createElement('div');
+  div.innerHTML = '<img src="images/available.png">active nodes (' + $up + ')<br>';
+  div.innerHTML += '<img src="images/offline.png">offline nodes (' + $down + ')';
+  legend.appendChild(div);
+  nlnogRing.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 }
 
 /***************************************************/
