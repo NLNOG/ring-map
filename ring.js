@@ -19,6 +19,10 @@ nlnogRing.init = function() {
     async: false,
     data: "",
     success: function(data) {
+      if (data.info.success == 0) {
+          alert("Error: " + data.info.errormessage);
+          return;
+      }
       for (var i = 0, node ; node = data.results.nodes[i]; i++) {
         nlnogRing.nodes[node.id] = node;
         splt = node.geo.split(',');
@@ -41,6 +45,10 @@ nlnogRing.init = function() {
     async: false,
     data: "",
     success: function(data) {
+      if (data.info.success == 0) {
+          alert("Error: " + data.info.errormessage);
+          return;
+      }
       for (var i = 0, part ; part = data.results.participants[i]; i++) {
         nlnogRing.participants[part.id] = part;
       }
