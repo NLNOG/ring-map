@@ -41,7 +41,7 @@
       }
 
       .info {
-        width: 350px;
+        width: 450px;
         height: 225px;
         cursor: pointer;
         padding: 2px 0;
@@ -90,17 +90,17 @@
     <div id="legend">
     </div>
       Find a node:
-      <select id="nodelist" style="width: 350px;">
+      <select id="nodelist" style="width: 450px;">
       </select>
       Group nodes:
       <input type="checkbox" checked="checked" id="usegmm"/>
       <script>
         function format(node) {
             return "<img src='images/flags/" + node.text.slice(-2).toLowerCase() + 
-                ".png' title='" + countries[node.text.slice(-2)] +"'/>&nbsp;" + node.text.slice(0,-5);
+                ".png' title='" + countries[node.text.slice(-2)] +"'/>&nbsp;" + node.text;
         }
         $("#nodelist").select2({
-            width: 350,
+            width: 450,
             formatResult: format,
             formatSelection: format,
             escapeMarkup: function(m) { return m; },

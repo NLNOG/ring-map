@@ -45,10 +45,6 @@ nlnogRing.init = function() {
     async: false,
     data: "",
     success: function(data) {
-      if (data.info.success == 0) {
-          alert("Error: " + data.info.errormessage);
-          return;
-      }
       for (var i = 0, part ; part = data.results.participants[i]; i++) {
         nlnogRing.participants[part.id] = part;
       }
@@ -101,14 +97,14 @@ nlnogRing.showMarkers = function() {
 
   for (var id in nlnogRing.nodes) {
     var node = nlnogRing.nodes[id];
-    var titleText = node.hostname;
+    var titleText = node.hostname.replace(".ring.nlnog.net", "");
 
     var item = document.createElement('OPTION');
     var title = document.createElement('A');
     title.href = '#';
     title.className = 'title';
     title.innerHTML = titleText + " - AS" + node.asn + 
-        " - " + node.countrycode;
+        " - " + node.city + ", " + node.countrycode;
     item.value = node.id;
 
     item.appendChild(title);
@@ -164,7 +160,7 @@ nlnogRing.markerClickFunction = function(node) {
         infoHtml += node.datacenter;
     else
         infoHtml += 'unspecified';
-    infoHtml += '</td></tr><tr><td class=head>Country:</td><td>' +
+    infoHtml += '</td></tr><tr><td class=head>Location:</td><td>' + node.city + ", " +
         flag + '&nbsp;' + countries[node.countrycode] + '</td></tr>' + 
         '<tr><td class=head>Status:</td><td>';
     if (node.active == 0)
