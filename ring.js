@@ -103,8 +103,11 @@ nlnogRing.showMarkers = function() {
     var title = document.createElement('A');
     title.href = '#';
     title.className = 'title';
-    title.innerHTML = titleText + " - AS" + node.asn + 
-        " - " + node.city + ", " + node.countrycode;
+    title.innerHTML = titleText + " - AS" + node.asn + " - ";
+    if (node.city != null) {
+        title.innerHTML += node.city + ", ";
+    }
+    title.innerHTML += node.countrycode;
     item.value = node.id;
 
     item.appendChild(title);
@@ -160,8 +163,11 @@ nlnogRing.markerClickFunction = function(node) {
         infoHtml += node.datacenter;
     else
         infoHtml += 'unspecified';
-    infoHtml += '</td></tr><tr><td class=head>Location:</td><td>' + node.city + ", " +
-        flag + '&nbsp;' + countries[node.countrycode] + '</td></tr>' + 
+    infoHtml += '</td></tr><tr><td class=head>Location:</td><td>';
+    if (node.city != null) {
+        infoHtml += node.city + ", ";
+    }
+    infoHtml += flag + '&nbsp;' + countries[node.countrycode] + '</td></tr>' + 
         '<tr><td class=head>Status:</td><td>';
     if (node.active == 0)
         infoHtml += "<span class=inactive>inactive</span>";
