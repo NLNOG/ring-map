@@ -4,15 +4,15 @@ Intro
 
 Credits
 ========
-`ring-map` was created by [Teun Vink](https://github.com/teunvink).
-`ring-map` was updated to use openstreetmap/leafletjs by [Bas van Elburg] (https://github.com/skinza).
+- `ring-map` was created by [Teun Vink](https://github.com/teunvink).
+- `ring-map` was updated to use openstreetmap/leafletjs by [Bas van Elburg](https://github.com/skinza).
 
 The following tools are used in `ring-map`:
 - [Select2](https://select2.org/)
 - [leafletjs](https://leafletjs.com/)
-- [leaflet.markercluster] (https://github.com/Leaflet/Leaflet.markercluster)
-- [leaflet.markercluster.freezable] (https://github.com/ghybs/Leaflet.MarkerCluster.Freezable)
-- [openstreetmap] (https://openstreetmap.org)
+- [leaflet markercluster](https://github.com/Leaflet/Leaflet.markercluster)
+- [leaflet markercluster freezable](https://github.com/ghybs/Leaflet.MarkerCluster.Freezable)
+- [openstreetmap](https://openstreetmap.org)
 - [jQuery](https://www.jquery.com)
 
 
