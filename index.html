@@ -1,124 +1,265 @@
-<!DOCTYPE>
-<html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>NLNOG Ring node map</title>
-    <style type="text/css">
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: Arial;
-        font-size: 12px;
-      }
+<!doctype html>
 
-      table {
-        padding: 0;
-      }
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>NLNOG Ring node map</title>
 
-      td {
-        font-size: 12px;
-        padding-left: 3px;
-      }
+        <script src="countries.js"></script>
+        
 
-      h3 {
-        padding-left: 3px;
-        padding-right: 10px;
-        border-top: solid 1px #bbb;
-        border-bottom: solid 1px #bbb;
-        vertical-align: middle;
-      }
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" 
+            integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+            crossorigin=""/>
+        <script
+            src="https://code.jquery.com/jquery-3.5.0.min.js"
+            integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+            crossorigin="anonymous"></script>
 
-      td.head {
-        color: #777;
-        vertical-align: top;
-        border-collapse: collapse;
-        padding-right: 3px;
-      }
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+            integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+            crossorigin=""></script>
 
-      #map {
-        width: 100%;
-        height: 95%;
-      }
+        <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"
+            crossorigin=""></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" crossorigin="" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" crossorigin="" />
+        <script src="https://unpkg.com/leaflet.markercluster.freezable@1.0.0/dist/leaflet.markercluster.freezable.js"></script>
+        <style type="text/css">
+            html, body { 
+                height: 100%;
+                margin: 0px;
+                padding: 0px;
+            }
+            #ringmap { width: 100%; height: 95%; background: black;}
 
-      .info {
-        width: 450px;
-        height: 225px;
-        cursor: pointer;
-        padding: 2px 0;
-        overflow: auto;
-        color: #000;
-        text-decoration: none;
-      }
+                body {
+                margin: 0;
+                padding: 0;
+                font-family: Arial;
+                font-size: 12px;
+            }
 
-      .inactive {
-          color: #900;
-      }
+            table {
+                padding: 0;
+            }
 
-      .active {
-          color: #090;
-      }
+            td {
+                font-size: 12px;
+                padding-left: 3px;
+            }
 
-      img {
-          vertical-align: middle;
-      }
-      #legend {
-        background: #fff;
-        padding: 6px;
-        margin: 5px;
-        border: 1px solid #ddd;
-      }
-      #legend img {
-        vertical-align: middle;
-      }
-    </style>
-    <script src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false"></script>
-    <script type="text/javascript" src="markerclusterer_packed.js"></script>
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="select2-3.4.6/select2.min.js"></script>
-    <script src="countries.js"></script>
-    <link href="select2-3.4.6/select2.css" rel="stylesheet"/>
-    <script type="text/javascript" src="ring.js"></script>
-    <script type="text/javascript">      
-      google.maps.event.addDomListener(window, 'load', nlnogRing.init);
-    </script>
-  </head>
-  <body>
-    <div id="map-container">
-      <div id="map"></div>
-      </div>
-    </div>
-    <div id="legend">
-    </div>
-      Find a node:
-      <select id="nodelist" style="width: 450px;">
-      </select>
-      Group nodes:
-      <input type="checkbox" checked="checked" id="usegmm"/>
-      <script>
-        function format(node) {
-            return "<img src='images/flags/" + node.text.slice(-2).toLowerCase() + 
-                ".png' title='" + countries[node.text.slice(-2)] +"'/>&nbsp;" + node.text;
-        }
-        $("#nodelist").select2({
-            width: 450,
-            formatResult: format,
-            formatSelection: format,
-            escapeMarkup: function(m) { return m; },
-            sortResults: function(results, container, query) {
-                return results.sort(function(a, b) {
-                    if (a.text > b.text) {
-                        return 1;
-                    } else if (a.text < b.text) {
-                        return -1;
-                    } else {
-                        return 0;
+            h3 {
+                padding-left: 3px;
+                padding-right: 10px;
+                border-top: solid 1px #bbb;
+                border-bottom: solid 1px #bbb;
+                vertical-align: middle;
+            }
+
+            td.head {
+                color: #777;
+                vertical-align: top;
+                border-collapse: collapse;
+                padding-right: 3px;
+            }
+
+           
+            .info {
+                
+                cursor: pointer;
+                padding: 2px 0;
+                overflow: auto;
+                color: #000;
+                text-decoration: none;
+            }
+
+            .inactive {
+                color: #900;
+            }
+
+            .active {
+                color: #090;
+            }
+
+            img {
+                vertical-align: middle;
+            }
+            #legend {
+                background: #fff;
+                padding: 6px;
+                margin: 5px;
+                border: 1px solid #ddd;
+            }
+            #legend img {
+                vertical-align: middle;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        
+        <div id="ringmap">test</div>
+        <script>
+
+
+            var ringmap = L.map('ringmap').setView([51.57907849999999,4.929288000000042], 6);
+            var markerClusterGroup = L.markerClusterGroup({spiderfyOnMaxZoom: false,});
+            var markers = Array();
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+            }).addTo(ringmap);
+
+            ringmap.addLayer(markerClusterGroup);
+
+            var availableIcon = L.icon({
+                iconUrl: 'images/available.png',
+                iconAnchor: [16, 37],
+                popupAnchor: [0,-18]
+            });
+
+            var offlineIcon = L.icon({
+                iconUrl: 'images/offline.png',
+                iconAnchor: [16, 37],
+                popupAnchor: [0,-18]
+            });
+            
+
+            // load partisipants
+            var participants = Array();
+            $.ajax({
+                url: 'participantsproxy.php',
+                dataType: 'json',
+                success: function(response) {
+                    
+                    nlnogParticipantsReceived(response);
+                }
+            });
+            
+            
+
+            function nlnogParticipantsReceived(data) {
+                $.each(data.results.participants,function(i,participant){
+                    participants[participant.id] = participant;
+                });
+                // load nodes
+                $.ajax({
+                    url: 'nodeproxy.php',
+                    dataType: 'json',
+                    success: function(response) {
+                        nlnogNodesReceived(response);
                     }
                 });
-                return results;
+            };
+
+
+            function nlnogNodesReceived(data) {
+                $.each(data.results.nodes,function(i, node) {
+                    var flag = '<img src="images/flags/' + node.countrycode.toLowerCase() + '.png"' +
+                        'title=' + countries[node.countrycode] + '>';
+
+                    var infoHtml = '<div class="info"><h3>' + node.hostname + 
+                        '</h3><table><tr><td class=head>Member:</td><td><a href="' + 
+                        participants[node.participant].url+ '" target="_blank">' +
+                        participants[node.participant].company + '</a></td></tr>' +
+                        '<tr><td class=head>ASN:</td><td><a href="http://as' + 
+                        node.asn + '.peeringdb.com" target="_blank">'+node.asn+'</a></td></tr>' +
+                        '<tr><td class=head>IPv4:</td><td>' + node.ipv4 + '</td></tr>' +
+                        '<tr><td class=head>IPv6:</td><td>' + node.ipv6 + '</td></tr>' + 
+                        '<tr><td class=head>Datacenter:</td><td>';
+                    if ((node.datacenter != null) && (node.datacenter != ''))
+                        infoHtml += node.datacenter;
+                    else
+                        infoHtml += 'unspecified';
+                    infoHtml += '</td></tr><tr><td class=head>Location:</td><td>';
+                    if (node.city != null) {
+                        infoHtml += node.city + ", ";
+                    }
+                    infoHtml += flag + '&nbsp;' + countries[node.countrycode] + '</td></tr>' + 
+                        '<tr><td class=head>Status:</td><td>';
+                    if (node.active == 0)
+                        infoHtml += "<span class=inactive>inactive</span>";
+                    else
+                        infoHtml += "<span class=active>active</span>";
+                    infoHtml += "</td></tr><tr><td class=head>About:</td><td>";
+                    if (participants[node.participant].description != null) {
+                        infoHtml += participants[node.participant].description;
+                    } else {
+                        infoHtml += "No description available.";
+                    }
+                    infoHtml +="</td></tr></table></div>";
+                    var marker = L.marker(node.geo.split(','),{ringnodeid:node.id ,icon:(node.active?availableIcon:offlineIcon)}).bindPopup(infoHtml);
+                    markerClusterGroup.addLayer(marker);
+                    markers.push(marker)
+
+                    nodelist_nodetext = node.hostname.replace(".ring.nlnog.net", "") + " - AS" + node.asn + " - ";
+                    if (node.city != null) {
+                        nodelist_nodetext += node.city + ", ";
+                    }
+                    nodelist_nodetext += node.countrycode;
+
+                    $('#nodelist').append(
+                        "<option value="+node.id+"><a href=\"#\" class=\"title\">"+nodelist_nodetext+"</a></options>"
+                    );
+                });
+
+               
+
+                    
+                    
             }
-        });
-        $("#nodelist").on("change",  function() { nlnogRing.select_changed(); });
-        $("#nodelist").prop("selectedIndex", 0);
-      </script>
-  </body>
+        </script>
+        Find a node:
+        <select id="nodelist" style="width: 450px;">
+        </select>
+        Group nodes:
+        <input type="checkbox" checked="checked" id="toggleClusterMarkers"/>
+        <script>
+          function format(node) {
+              return "<img src='images/flags/" + node.text.slice(-2).toLowerCase() + 
+                  ".png' title='" + countries[node.text.slice(-2)] +"'/>&nbsp;" + node.text;
+          }
+          $("#nodelist").select2({
+              width: 450,
+              formatResult: format,
+              formatSelection: format,
+              escapeMarkup: function(m) { return m; },
+              sortResults: function(results, container, query) {
+                  return results.sort(function(a, b) {
+                      if (a.text > b.text) {
+                          return 1;
+                      } else if (a.text < b.text) {
+                          return -1;
+                      } else {
+                          return 0;
+                      }
+                  });
+                  return results;
+              }
+          });
+          $("#toggleClusterMarkers").change(function (){
+              if(this.checked) {
+                markerClusterGroup.enableClustering();
+              } else { markerClusterGroup.disableClustering(); }
+          });
+
+          $("#nodelist").change(function() { 
+            var searchval = this.value;
+            $.each(markers,function(i,marker){
+                if(searchval == marker.options.ringnodeid) {
+                    /*markerClusterGroup.disableClustering();
+                    $("#toggleClusterMarkers").prop( "checked", false );*/
+                    markerClusterGroup.zoomToShowLayer(marker,function(){marker.openPopup();});
+                    //marker.fire('click');
+                    return false;
+                }
+            });
+          });
+          $("#nodelist").prop("selectedIndex", 0);
+        </script>
+    </body>
 </html>
