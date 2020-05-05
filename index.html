@@ -132,7 +132,7 @@
             // load partisipants
             var participants = Array();
             $.ajax({
-                url: 'participantsproxy.php',
+                url: 'participants.cgi',
                 dataType: 'json',
                 success: function(response) {
                     
@@ -148,7 +148,7 @@
                 });
                 // load nodes
                 $.ajax({
-                    url: 'nodeproxy.php',
+                    url: 'nodes.cgi',
                     dataType: 'json',
                     success: function(response) {
                         nlnogNodesReceived(response);
