@@ -5,7 +5,7 @@ import urllib.request
 print("Content-Type: text/plain\n\n")
 
 try:
-    print(urllib.request.urlopen("https://api.ring.nlnog.net/1.0/nodes").read())
+    print(urllib.request.urlopen("https://api.ring.nlnog.net/1.0/nodes").read().decode('utf-8'))
 except:
     print("""{
     "info": {    
