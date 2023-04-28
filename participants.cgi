@@ -1,14 +1,14 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
-import urllib2
+import urllib.request
 
-print "Content-Type: text/plain\n\n"
+print("Content-Type: text/plain\n\n")
 
 try:
-    print urllib2.urlopen("https://api.ring.nlnog.net/1.0/participants").read()
+    print(urllib.request.urlopen("https://api.ring.nlnog.net/1.0/participants").read())
 except:
-    print """{
+    print("""{
     "info": {    
         "success": 0
       },
-}"""
+}""")
