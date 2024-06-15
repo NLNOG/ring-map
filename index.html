@@ -156,6 +156,10 @@
                 });
             };
 
+		$.urlParam = function(name){
+			var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+			return results[1] || 0;
+		}
 
             function nlnogNodesReceived(data) {
                 $.each(data.results.nodes,function(i, node) {
@@ -195,6 +199,9 @@
                     var marker = L.marker(node.geo.split(','),{ringnodeid:node.id ,icon:(node.active?availableIcon:offlineIcon)}).bindPopup(infoHtml);
                     markerClusterGroup.addLayer(marker);
                     markers.push(marker)
+	       if (node.id == $.urlParam("node")) {
+			    markerClusterGroup.zoomToShowLayer(marker,function(){marker.openPopup();});
+		   };
 
                     nodelist_nodetext = node.hostname.replace(".ring.nlnog.net", "") + " - AS" + node.asn + " - ";
                     if (node.city != null) {
@@ -206,11 +213,6 @@
                         "<option value="+node.id+"><a href=\"#\" class=\"title\">"+nodelist_nodetext+"</a></options>"
                     );
                 });
-
-               
-
-                    
-                    
             }
         </script>
         Find a node:
